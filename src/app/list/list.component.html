@@ -1,0 +1,53 @@
+<section class="container">
+    <h1>My ToDo</h1>
+    <div [formGroup]="todoForm" class="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Enter task</mat-label>
+            <input matInput placeholder="Enter task" formControlName="task" required>
+            <mat-error *ngIf="todoForm.controls['task'].invalid">
+                Please enter task
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Deadline</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button mat-flat-button color="primary" [disabled]="todoForm.invalid" (click)="addTasks()">Add</button>
+    </div>
+    <hr>
+
+    <div class="table" *ngIf="taskList?.length; else noData">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="isCompleted" >
+              <th mat-header-cell *matHeaderCellDef> Action </th>
+              <td mat-cell *matCellDef="let row; let i = index;">
+                <mat-checkbox (change)="updateList($event.checked, i)"></mat-checkbox>
+            </td>
+            </ng-container>
+            <ng-container matColumnDef="task">
+              <th mat-header-cell *matHeaderCellDef> Task </th>
+              <td mat-cell *matCellDef="let element"> {{element.task}} </td>
+            </ng-container>
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> Deadline  </th>
+                <td mat-cell *matCellDef="let element"> {{element.date | date : 'M/d/yy, h:mm a'}} </td>
+              </ng-container>
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef> Delete  </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <button mat-button color="warn" (click)="deleteTask(element.id)">
+                        <mat-icon aria-hidden="false" fontIcon="delete"></mat-icon>
+                    </button>
+                </td>
+              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+    </div>
+    <ng-template #noData>
+        <div class="no-data">No task available to perform</div>
+    </ng-template>
+</section>

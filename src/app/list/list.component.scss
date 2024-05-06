@@ -1,0 +1,29 @@
+.container{
+    margin: 5% auto;
+    background-color: #E0F2F1;
+    height: 500px;
+    width: 80%;
+    padding: 16px;
+    h1{
+        text-align: center;
+        color: #3878ac;
+    }
+    .form{
+        display: flex;
+        align-items: start;
+        justify-content: center;
+
+        gap: 12px;
+        button{
+            height: 56px;
+            width: 100px;
+        }
+    }
+    .table{
+        padding-top: 16px;
+        overflow: auto;
+    }
+    .no-data{
+        text-align: center;
+    }
+}
